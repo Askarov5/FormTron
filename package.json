@@ -1,0 +1,18 @@
+{
+  "name": "formtron",
+  "version": "1.0.0",
+  "description": "Form builder in Electron.js",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Askarov Orozbek",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^2.0.7",
+    "formBuilder": "^2.9.8",
+    "fs": "0.0.1-security",
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1"
+  }
+}
