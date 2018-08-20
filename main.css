@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+}
+.main-actions {
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32%;
+    height: 100px;
+    transition: 0.5s;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+.action-btn:hover {
+    font-size: 26px;
+    transition: 0.5s;
+}
+.action-btn__new {
+    background-color: #2C3E50;
+}
+.action-btn__new:hover {
+    background-color: #34495E;
+}
+.action-btn__open {
+    background-color: #2980B9;
+}
+.action-btn__open:hover {
+    background-color: #3498DB;
+}
+.action-btn__about {
+    background-color: #8E44AD;
+}
+.action-btn__about:hover {
+    background-color: #9B59B6;
+}

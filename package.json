@@ -9,10 +9,16 @@
   "author": "Askarov Orozbek",
   "license": "MIT",
   "devDependencies": {
+    "bootstrap": "^3.3.7",
     "electron": "^2.0.7",
+    "electron-reload": "^1.2.5",
     "formBuilder": "^2.9.8",
     "fs": "0.0.1-security",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "tether": "^1.4.4"
   }
 }

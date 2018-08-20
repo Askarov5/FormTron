@@ -1,11 +1,16 @@
+'use strict';
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
 const {app, BrowserWindow, Menu} = electron;
-
+const ipcMain = require('electron').ipcMain;
+const remote = require('electron').remote;
 //File System
 const fs = require('fs');
+
+//live reload
+require('electron-reload')(__dirname);
 
 var mainWindow;
 //Listen for app to be ready
@@ -29,15 +34,19 @@ app.on('ready', function() {
     //Insert menu
     Menu.setApplicationMenu(mainMenu);
 });
-
 //Handle open Windows
-function openWindow(folderName, fileName) {
+function openWindow(folderName, fileName, max) {
     //Create new window
     let win = new BrowserWindow({
         width: 800,
         height: 500,
         parent: mainWindow
     });
+
+    //open new screen in max size
+    if(max == true) {
+        win.maximize();
+    }
 
     //Load html into window
     win.loadURL(`file://${__dirname}/${folderName}/${fileName}.html`)
@@ -62,9 +71,20 @@ const mainMenuTemplate = [
         submenu: [
             {
                 label: 'New Form',
-                click() {
-                    openWindow('newForm','newWindow');
-                }
+                submenu: [
+                        {
+                            label: 'jQuery Form',
+                            click() {
+                                openWindow('newForm','newWindow', true);
+                            }
+                        },
+                        {
+                            label: 'Bootstrap 3 Form',
+                            click() {
+                                openWindow('bootForm','bootForm', true);
+                            }
+                        }                  
+                  ]      
             },
             {
                 label: 'Open',
@@ -73,28 +93,12 @@ const mainMenuTemplate = [
                 }
             },
             {
-                label: 'JSON',
-                submenu: [
-                    {
-                        label: 'Paste JSON data',
-                        click() {
-                            openWindow('renderWindow','renderWindow');
-                        }
-                    },
-                    {
-                        label: 'Open JSON File',
-                        click() {
-                            openJSON();
-                        }
-                    }
-                ]
-            },
-            {
                 label: 'Save'
             },
             {
                 label: 'Save as'
             },
+            {type: 'separator'},
             {
                 label: 'Quit',
                 accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
@@ -112,6 +116,15 @@ const mainMenuTemplate = [
 function openFile() {
     dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
 }
+
+//IPC
+ipcMain.on('JSONData:value', (e, arg) =>{
+    console.log(arg);
+    e.sender.send('JSONData:set', arg);
+    //win.webContents.send('JSONData:set', arg);
+         
+});
+
 
 /* 
     Extra 
@@ -142,6 +155,3 @@ if(process.env.NODE_ENV !== 'production') {
         ]
     })
 }
-
-
-

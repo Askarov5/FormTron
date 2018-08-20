@@ -1,0 +1,25 @@
+@import url('../main.css');
+
+#newForm {
+    background-color:darkgrey;
+    padding: 5px;
+}
+.action-buttons {
+    padding: 20px;
+}
+h3 {
+    text-align: center;
+}
+.getJsonData {
+    width: 95%;
+    margin: 0 auto;
+}
+.getJsonData textarea#JSONData {
+    display: block;
+    min-height: 50%;
+    width: 100%;
+}
+.getJsonData button[type=submit] {
+    display: block;
+    width: 100%;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="newWindow.css">
+</head>
+<body>
+    <div>
+        <h3>Input your JSON data below</h3>
+        <form class="getJsonData">
+            <textarea name="" id="JSONData" cols="30" rows="10"></textarea>
+            <button type="submit"> Set </button>
+        </form>    
+    </div>
+    
+    <script>
+        const electron = require('electron');
+        const remote = electron.remote;
+        const ipc = electron.ipcRenderer;
+        
+        
+        const setJSONWin = require('electron').remote.getCurrentWindow();
+        const form = document.querySelector('form');
+        //Get Data from form
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            const JSONData = document.querySelector('#JSONData').value;
+            console.log(JSONData);
+            ipc.sendTo(2,'JSONData:value', JSONData);
+            let win = remote.getCurrentWindow();
+            win.close();
+        });
+        //Close window onclick escape
+        document.addEventListener('keydown', function(e) {
+            if( e.keyCode == 27) {
+                setJSONWin.close();
+            }
+        });
+    </script>
+</body>
+</html>

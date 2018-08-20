@@ -2,48 +2,19 @@
 <html lang="en">
 <head>
     <title>FormTron</title>
+    <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-    <h1 style="color:black;">Form Builder</h1>
     <div class="main-actions">
-        <button class="btn btn-warning" id="fileOpener">Open</button> <button class="btn btn-primary">Edit</button>
+        <div class="action-btn action-btn__new">New Form</div>
+        <div class="action-btn action-btn__open">Open Form</div>
+        <div class="action-btn action-btn__about">About</div>   
     </div>
     
     <script src="main.js"></script>
     <script>
-                var remote = require('remote'); 
-        var dialog = remote.require('dialog');
-        var fs = require('fs');
-        const fileOpener = document.getElementById('fileOpener');
-        fileOpener.addEventListener('click', function(){
-            dialog.showOpenDialog((fileNames) => {
-                // fileNames is an array that contains all the selected
-                if(fileNames === undefined){
-                    console.log("No file selected");
-                    return;
-                }
-
-                fs.readFile(filepath, 'utf-8', (err, data) => {
-                    if(err){
-                        alert("An error ocurred reading the file :" + err.message);
-                        return;
-                    }
-
-                    // Change how to handle the file content
-                    console.log("The file content is : " + data);
-                });
-            });
-            
-
-            // Note that the previous example will handle only 1 file, if you want that the dialog accepts multiple files, then change the settings:
-            // And obviously , loop through the fileNames and read every file manually
-            dialog.showOpenDialog({ 
-                properties: [ 
-                    'openFile', 'multiSelections', (fileNames) => {
-                        console.log(fileNames);
-                    }
-                ]
-            });
+        document.getElementsByClassName('action-btn__new')[0].addEventListener('click', function(){
+            openWindow('newForm','newWindow', true);
         });
     </script>
 </body>
