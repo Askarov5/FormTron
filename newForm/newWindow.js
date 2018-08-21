@@ -13,6 +13,7 @@ const fs = require('fs');
 //Main Code
 const curWindow = require('electron').remote.getCurrentWindow();
 
+//Save btn
 curWindow.once('did-finish-load',function(){
     let saveBtn = document.getElementsByClassName('save-template')[0];
     console.log(saveBtn);
@@ -50,6 +51,7 @@ jQuery(function($) {
         setJSONWin = new BrowserWindow({
             width: 400,
             height: 400,
+            transparent: true,
             //frame: false,
             parent: remote.getCurrentWindow(),
             modal: true
@@ -67,7 +69,7 @@ jQuery(function($) {
     document.getElementById('saveJSON').addEventListener('click', function() {
         var formData = formBuilder.formData;
 
-        dialog.showSaveDialog((fileName) => {
+        dialog.showSaveDialog(fileTypes,(fileName) => {
 //Improve this part
             if( fileName === undefined) {
                 alert('Write the name of the file.');
@@ -82,8 +84,18 @@ jQuery(function($) {
             })
         });
     });
+    //file type filters for fs
+    const fileTypes = {
+        filters: [
+          {name: 'JSON', extensions: ['json']},
+          {name: 'Javascript', extensions: ['js']},
+          {name: 'XML', extensions: ['xml','xsd']},
+          {name: 'All Files', extensions: ['*']}
+        ]
+    }
+    //open and read file
     document.getElementById('importJSON').addEventListener('click', function() {
-        dialog.showOpenDialog((fileNames) => {
+        dialog.showOpenDialog(fileTypes, (fileNames) => {
             if( fileNames === undefined) {
                 alert('No file selected');
             } else {
@@ -101,9 +113,9 @@ jQuery(function($) {
             formBuilder.actions.setData(data);
         });
     }
-
+    //update file
     document.getElementById('updateJSON').addEventListener('click', function() {
-        dialog.showOpenDialog((fileNames) => {
+        dialog.showOpenDialog(fileTypes,(fileNames) => {
             if( fileNames === undefined) {
                 alert('No file selected');
             } else {

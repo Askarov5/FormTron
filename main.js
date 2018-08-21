@@ -38,6 +38,8 @@ app.on('ready', function() {
 function openWindow(folderName, fileName, max) {
     //Create new window
     let win = new BrowserWindow({
+        backgroundColor: rgba(255, 255, 255, 0.9),
+        transparent: true,
         width: 800,
         height: 500,
         parent: mainWindow
