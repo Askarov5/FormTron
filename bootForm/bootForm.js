@@ -149,7 +149,10 @@ $(document).ready(function(){
 
   //activate legend popover
   $("#target .component").popover({trigger: "manual"});
-  //popover on click event
+ //catch mouse event
+  let mouseEventTypeElem = $("#target .component");
+
+   //popover on click event
   $("#target").delegate(".component", "dblclick", function(e){
     e.preventDefault();
     $(".popover").hide();

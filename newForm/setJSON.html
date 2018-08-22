@@ -20,6 +20,7 @@
         
         
         const setJSONWin = require('electron').remote.getCurrentWindow();
+        console.log(require('electron').remote.getCurrentWindow().id);
         const form = document.querySelector('form');
         //Get Data from form
         form.addEventListener('submit', function(e){
@@ -28,7 +29,7 @@
             console.log(JSONData);
             ipc.sendTo(2,'JSONData:value', JSONData);
             let win = remote.getCurrentWindow();
-            win.close();
+            //win.close();
         });
         //Close window onclick escape
         document.addEventListener('keydown', function(e) {

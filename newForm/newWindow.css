@@ -1,5 +1,6 @@
 @import url('../main.css');
-
+@import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css');
 #newForm {
     background-color:darkgrey;
     padding: 5px;

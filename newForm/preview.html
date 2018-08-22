@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Form Preview</title>
+</head>
+<body>
+    <form action="" id="previewForm"></form>
+    <script>
+        const electron = require('electron');
+        const remote = electron.remote;
+        const ipcRenderer = electron.ipcRenderer;
+
+        const $ = jQuery = require('jquery');
+        require('jquery-ui');
+        require('jquery-ui-sortable');
+        require('bootstrap');
+        
+        //Render Modules
+        require('../assets/js/vendor.js');
+        const formRender = require('../node_modules/formBuilder/dist/form-render.min.js');
+        require('tinymce');
+        
+        const previewWindow = require('electron').remote.getCurrentWindow().id;
+        console.log(previewWindow);
+        const form = document.getElementById('previewForm');
+
+        ipcRenderer.on('formHTML:data', (e, arg) => {
+            alert(arg);
+        });
+
+        
+        //Close window onclick escape
+        document.addEventListener('keydown', function(e) {
+            if( e.keyCode == 27) {
+                setJSONWin.close();
+            }
+        });
+    </script>
+</body>
+</html>

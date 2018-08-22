@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <title>Render A Form From JSON</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
 </head>
 <body>
     <h1>Get Your HTML Form</h1>
@@ -11,7 +13,35 @@
         <button type="submit">Submit</button>
     </form>
     <code id="markup"></code>
-
+    
+    <div class="content">
+    
+        <div class="action-buttons">     
+          <label>Actions</label>
+          <button id="set-autocomplete" type="button">Autocomplete</button>
+          <button id="set-hidden" type="button">Hidden</button>
+          <button id="set-select" type="button">Select</button>
+          <button id="set-checkbox-group" type="button">Checkbox Group</button>
+          <button id="set-radio-group" type="button">Radio Group</button>
+          <button id="set-text" type="button">Text</button>
+          <button id="set-password" type="button">Password</button>
+          <button id="set-email" type="button">Email</button>
+          <button id="set-color" type="button">Color</button>
+          <button id="set-tel" type="button">Telephone</button> 
+          <button id="set-date" type="button">Date</button>
+          <button id="set-number" type="button">Number</button>
+          <button id="set-textarea" type="button">Textarea</button>
+          <button id="set-textarea-tinymce" type="button">Textarea-TinyMCE</button> 
+          <button id="showdata" type="button" class="btn btn-sm btn-info">Show Data</button>      
+          
+      </div>
+    
+        <div id="renderMe"></div>
+    
+        <div id="showData"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
     <script src="./renderWindow.js"></script>
+    
 </body>
 </html>

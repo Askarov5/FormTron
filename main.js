@@ -38,7 +38,7 @@ app.on('ready', function() {
 function openWindow(folderName, fileName, max) {
     //Create new window
     let win = new BrowserWindow({
-        backgroundColor: rgba(255, 255, 255, 0.9),
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
         transparent: true,
         width: 800,
         height: 500,
@@ -95,6 +95,12 @@ const mainMenuTemplate = [
                 }
             },
             {
+                label: 'Render',
+                click() {
+                    openWindow('renderWindow', 'renderWindow', true);
+                }
+            },
+            {
                 label: 'Save'
             },
             {
@@ -123,10 +129,12 @@ function openFile() {
 ipcMain.on('JSONData:value', (e, arg) =>{
     console.log(arg);
     e.sender.send('JSONData:set', arg);
-    //win.webContents.send('JSONData:set', arg);
-         
+    //win.webContents.send('JSONData:set', arg);  
 });
 
+ipcMain.on('formHTML:data', function(event, data) {
+    mainWindow.webContents.send('formHTML', data);
+});
 
 /* 
     Extra 
