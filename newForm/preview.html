@@ -21,14 +21,12 @@
         const formRender = require('../node_modules/formBuilder/dist/form-render.min.js');
         require('tinymce');
         
-        const previewWindow = require('electron').remote.getCurrentWindow().id;
-        console.log(previewWindow);
-        const form = document.getElementById('previewForm');
-        
+        const previewWindow = remote.getCurrentWindow(),
+              form = document.getElementById('previewForm');
+        //Catch and insert HTML
         ipcRenderer.on('formHTML:Data', (e, data) => {
-            console.log(typeof(data));
-            console.log(data);
             form.insertAdjacentHTML('afterbegin', data);
+            previewWindow.show();
         });
         
         //Close window onclick escape

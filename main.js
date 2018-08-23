@@ -2,12 +2,13 @@
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
-
-const {app, BrowserWindow, Menu} = electron;
-//File System
 const fs = require('fs');
 
-//live reload
+//Import Electron Modules
+const {app, BrowserWindow, Menu} = electron;
+const remote = require('electron').remote;
+
+//live reload(DevDep) 
 require('electron-reload')(__dirname);
 
 var mainWindow;
@@ -60,6 +61,7 @@ function openWindow(folderName, fileName, max) {
     //Garbage Collection - Close window when closes main window
     win.on('closed', () => {win = null;});
 
+    //Catch window resize
     win.on('resize', () => {});
     
 }
@@ -87,22 +89,10 @@ const mainMenuTemplate = [
                   ]      
             },
             {
-                label: 'Open',
-                click() {
-                    openFile();
-                }
-            },
-            {
                 label: 'Render',
                 click() {
-                    openWindow('renderWindow', 'renderWindow', true);
+                    openWindow('renderWindow', 'renderWindow');
                 }
-            },
-            {
-                label: 'Save'
-            },
-            {
-                label: 'Save as'
             },
             {type: 'separator'},
             {
@@ -122,8 +112,6 @@ const mainMenuTemplate = [
 function openFile() {
     dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
 }
-
-//IPC
 
 /* 
     Extra 

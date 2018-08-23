@@ -1,6 +1,6 @@
 //Import Modules
 const electron = require('electron');
-const { webContents, remote } = electron;
+const { remote } = electron;
 const {BrowserWindow, dialog, ipcMain } = electron.remote;
 const axios = require('axios');
 
@@ -12,29 +12,13 @@ require('jquery-ui-sortable');
 require('bootstrap');
 require('formBuilder');
 
+
 //Render Modules
 require('../assets/js/vendor.js');
 const formRender = require('../node_modules/formBuilder/dist/form-render.min.js');
 require('tinymce');
 
-
-//Main Code
-const curWindow = require('electron').remote.getCurrentWindow();
-
-//Save btn
-curWindow.once('did-finish-load',function(){
-    let saveBtn = document.getElementsByClassName('save-template')[0];
-    console.log(saveBtn);
-    saveBtn.addEventListener('click',() => {
-        console.log('btn clicked');
-        let formNewData = formBuilder.actions.getData('json');
-        console.log(formNewData);
-    });
-});
-
-
-
-//Action Buttons
+//Buid, Edit, Save
 jQuery(function($) {
     var fbEditor = document.getElementById('newForm'),
         formBuilder = $(fbEditor).formBuilder(),
@@ -55,8 +39,6 @@ jQuery(function($) {
       console.log(formBuilder.actions.getData());
     });
 
-
-
     //Set JSON Data and Edit
     document.getElementById('setData').addEventListener('click', function(){
         setJSONWin = new BrowserWindow({
@@ -67,32 +49,37 @@ jQuery(function($) {
             parent: remote.getCurrentWindow(),
             modal: true
         });
-        console.log(remote.getCurrentWindow().id);
         setJSONWin.loadURL(`file://${__dirname}/setJSON.html`);
         setJSONWin.setMenu(null);
-
     });
 
+    //Catch 'SetJSON' Data
     ipcMain.on('JSONData:value', (e, arg) => {
         formBuilder.actions.setData(arg);
     });
 
 
-    //file type filters for fs
-    const buildFileTypes = {
-        filters: [
+    //File type filters for Built fs
+    const buildFileTypes = [
+        {filters: [
           {name: 'JSON', extensions: ['json']},
-          {name: 'Javascript', extensions: ['js']},
-          {name: 'XML', extensions: ['xml','xsd']},
           {name: 'All Files', extensions: ['*']}
-        ]
-    }
+        ]},
+        {filters: [
+            {name: 'XML', extensions: ['xml','xsd']},
+            {name: 'All Files', extensions: ['*']}
+        ]},
+        {filters: [
+            {name: 'Javascript', extensions: ['js']},
+            {name: 'All Files', extensions: ['*']}
+        ]}
+    ]
 
     //Save JSON Data
-    document.getElementById('saveJSON').addEventListener('click', function() {
+    document.getElementById('saveJSON').addEventListener('click', function(filter) {
         var formData = formBuilder.formData;
-
-        dialog.showSaveDialog(buildFileTypes,(fileName) => {
+        
+        dialog.showSaveDialog(buildFileTypes[0],(fileName) => {
         //Improve this part
             if( fileName === undefined) {
                 alert('Write the name of the file.');
@@ -108,7 +95,7 @@ jQuery(function($) {
         });
     });
     
-    //open and read file
+    //Open and read file
     document.getElementById('importJSON').addEventListener('click', function() {
         dialog.showOpenDialog(buildFileTypes, (fileNames) => {
             if( fileNames === undefined) {
@@ -118,7 +105,8 @@ jQuery(function($) {
             }
         });
     });
-    //read file func
+
+    //Read file func
     function readFile(filepath) {
         fs.readFile(filepath, 'utf-8', (err, data) => {
             if(err){
@@ -128,7 +116,8 @@ jQuery(function($) {
             formBuilder.actions.setData(data);
         });
     }
-    //update file
+
+    //Update file
     document.getElementById('updateJSON').addEventListener('click', function() {
         dialog.showOpenDialog(buildFileTypes,(fileNames) => {
             if( fileNames === undefined) {
@@ -146,22 +135,23 @@ jQuery(function($) {
         });
     });
 
-
-
     /*
         Render Actions
     */
+   //Save html: filter file types
     const renderFileTypes = {
         filters: [
             {name: 'HTML', extensions: ['html']},
             {name: 'All Files', extensions: ['*']}
           ]
     }
+
     //Save html
     var addLineBreaks = function(html) {
             return html.replace(new RegExp('><', 'g'), '>\n<').replace(new RegExp('><', 'g'), '>\n<');
-        };
-        var $markup = $('<div/>');
+        },
+        $markup = $('<div/>');
+
     document.getElementById('saveHTML').addEventListener('click', function() {
         new Promise(function(res, rej){
             var formData = formBuilder.formData;
@@ -171,7 +161,7 @@ jQuery(function($) {
             var formHTML = addLineBreaks($markup[0].innerHTML);
 
             dialog.showSaveDialog(renderFileTypes,(fileName) => {
-            //Improve this part
+            //Need Improve this part
                 if( fileName === undefined) {
                     alert('Write the name of the file.');
                     return;
@@ -195,12 +185,12 @@ jQuery(function($) {
             transparent: true,
             //frame: false,
             parent: remote.getCurrentWindow(),
-            modal: true
+            modal: true,
+            show: false
         });
         previewWindow.loadURL(`file://${__dirname}/preview.html`);
-        //previewWindow.setMenu(null);
+        previewWindow.setMenu(null);
 
-        
         //Generate and send html code    
         new Promise(function(res, rej){
             var formData = formBuilder.formData;
@@ -210,7 +200,6 @@ jQuery(function($) {
             previewWindow.webContents.on('did-finish-load', () => {
                 previewWindow.webContents.send('formHTML:Data', $markup[0].innerHTML);
             });
-            
         });  
     });
 

@@ -9,7 +9,7 @@
         <h3>Input your JSON data below</h3>
         <form class="getJsonData">
             <textarea name="" id="JSONData" cols="30" rows="10"></textarea>
-            <button type="submit"> Set </button>
+            <button class="action__btn blue" type="submit"> Set </button>
         </form>    
     </div>
     
@@ -32,7 +32,7 @@
             console.log(win.getParentWindow().id);
             ipcRenderer.send('JSONData:value', JSONData);
             
-            //win.close();
+            win.close();
         });
         //Close window onclick escape
         document.addEventListener('keydown', function(e) {

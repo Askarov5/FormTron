@@ -8,21 +8,25 @@
     
 </style>
 <body>
-    <h1>Form Editor</h1>
+    <header>
+        <h1>Form Editor</h1>
+        <div class="action-buttons">
+            <button class="action__btn red" id="saveJSON" type="button">Save JSON Data</button>
+            <button class="action__btn blue" id="updateJSON" type="button">Update JSON Data</button>
+            <button class="action__btn red" id="setData" type="button">Set Data</button>
+            <button class="action__btn blue" id="importJSON" type="button">Import JSON</button>
+            <button class="action__btn red" id="saveHTML" type="button">Save as HTML</button>
+            <button class="action__btn blue" id="preview" type="button">Preview</button>
+        </div>
+    </header>
+    
     <div id="newForm"></div>
     <div class="action-buttons">
         <button id="getXML" type="button">Get XML Data</button>
         <button id="getJSON" type="button">Get JSON Data</button>
         <button id="getJS" type="button">Get JS Data</button>
-        <button id="setData" type="button">Set Data</button>
-        <button id="importJSON" type="button">Import JSON</button>
     </div>
-    <div class="action-buttons">
-        <button id="saveJSON" type="button">Save JSON Data</button>
-        <button id="updateJSON" type="button">Update JSON Data</button>
-        <button id="saveHTML" type="button">Save as HTML</button>
-        <button id="preview" type="button">Preview</button>
-    </div>
+    
 
     <div>
         <code id="markup"></code>
