@@ -23,6 +23,21 @@ jQuery(function($) {
     var fbEditor = document.getElementById('newForm'),
         formBuilder = $(fbEditor).formBuilder(),
         setJSONWin;
+    //File type filters for Built fs
+    const buildFileTypes = [
+        {filters: [
+          {name: 'JSON', extensions: ['json']},
+          {name: 'All Files', extensions: ['*']}
+        ]},
+        {filters: [
+            {name: 'XML', extensions: ['xml','xsd']},
+            {name: 'All Files', extensions: ['*']}
+        ]},
+        {filters: [
+            {name: 'Javascript', extensions: ['js']},
+            {name: 'All Files', extensions: ['*']}
+        ]}
+    ];
         
     //Get XML Data
     document.getElementById('getXML').addEventListener('click', function() {
@@ -58,23 +73,6 @@ jQuery(function($) {
         formBuilder.actions.setData(arg);
     });
 
-
-    //File type filters for Built fs
-    const buildFileTypes = [
-        {filters: [
-          {name: 'JSON', extensions: ['json']},
-          {name: 'All Files', extensions: ['*']}
-        ]},
-        {filters: [
-            {name: 'XML', extensions: ['xml','xsd']},
-            {name: 'All Files', extensions: ['*']}
-        ]},
-        {filters: [
-            {name: 'Javascript', extensions: ['js']},
-            {name: 'All Files', extensions: ['*']}
-        ]}
-    ]
-
     //Save JSON Data
     document.getElementById('saveJSON').addEventListener('click', function(filter) {
         var formData = formBuilder.formData;
@@ -97,7 +95,7 @@ jQuery(function($) {
     
     //Open and read file
     document.getElementById('importJSON').addEventListener('click', function() {
-        dialog.showOpenDialog(buildFileTypes, (fileNames) => {
+        dialog.showOpenDialog(buildFileTypes[0], (fileNames) => {
             if( fileNames === undefined) {
                 alert('No file selected');
             } else {
@@ -119,7 +117,7 @@ jQuery(function($) {
 
     //Update file
     document.getElementById('updateJSON').addEventListener('click', function() {
-        dialog.showOpenDialog(buildFileTypes,(fileNames) => {
+        dialog.showOpenDialog(buildFileTypes[0],(fileNames) => {
             if( fileNames === undefined) {
                 alert('No file selected');
             } else {
