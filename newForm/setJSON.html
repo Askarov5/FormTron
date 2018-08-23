@@ -16,7 +16,7 @@
     <script>
         const electron = require('electron');
         const remote = electron.remote;
-        const ipc = electron.ipcRenderer;
+        const ipcRenderer = electron.ipcRenderer;
         
         
         const setJSONWin = require('electron').remote.getCurrentWindow();
@@ -27,8 +27,11 @@
             e.preventDefault();
             const JSONData = document.querySelector('#JSONData').value;
             console.log(JSONData);
-            ipc.sendTo(2,'JSONData:value', JSONData);
-            let win = remote.getCurrentWindow();
+            let win = remote.getCurrentWindow(),
+                parentWinId = win.getParentWindow().id;
+            console.log(win.getParentWindow().id);
+            ipcRenderer.send('JSONData:value', JSONData);
+            
             //win.close();
         });
         //Close window onclick escape

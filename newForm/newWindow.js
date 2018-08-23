@@ -1,9 +1,8 @@
 //Import Modules
 const electron = require('electron');
 const { webContents, remote } = electron;
-const {BrowserWindow, dialog } = electron.remote;
+const {BrowserWindow, dialog, ipcMain } = electron.remote;
 const axios = require('axios');
-const ipcRenderer = electron.ipcRenderer;
 
 const fs = require('fs');
 
@@ -68,11 +67,13 @@ jQuery(function($) {
             parent: remote.getCurrentWindow(),
             modal: true
         });
+        console.log(remote.getCurrentWindow().id);
         setJSONWin.loadURL(`file://${__dirname}/setJSON.html`);
-        //setJSONWin.setMenu(null);
+        setJSONWin.setMenu(null);
+
     });
 
-    ipcRenderer.on('JSONData:value', (e, arg) => {
+    ipcMain.on('JSONData:value', (e, arg) => {
         formBuilder.actions.setData(arg);
     });
 
@@ -157,17 +158,10 @@ jQuery(function($) {
           ]
     }
     //Save html
-    var escapeEl = document.createElement('textarea'),
-        code = document.getElementById('markup'),
-        escapeHTML = function(html) {
-            escapeEl.textContent = html;
-            return escapeEl.innerHTML;
-        },
-        addLineBreaks = function(html) {
+    var addLineBreaks = function(html) {
             return html.replace(new RegExp('><', 'g'), '>\n<').replace(new RegExp('><', 'g'), '>\n<');
         };
         var $markup = $('<div/>');
-        var formOuterHTML;
     document.getElementById('saveHTML').addEventListener('click', function() {
         new Promise(function(res, rej){
             var formData = formBuilder.formData;
@@ -195,15 +189,9 @@ jQuery(function($) {
 
     //Preview
     document.getElementById('preview').addEventListener('click', function() {
-        console.log('Hello');
-        
-        var formData = formBuilder.formData;
-        ipcRenderer.send('formHTML:data', formData);
-
         let previewWindow = new BrowserWindow({
             width: 600,
             height: 800,
-            show: false,
             transparent: true,
             //frame: false,
             parent: remote.getCurrentWindow(),
@@ -211,21 +199,19 @@ jQuery(function($) {
         });
         previewWindow.loadURL(`file://${__dirname}/preview.html`);
         //previewWindow.setMenu(null);
-        previewWindow.webContents.on('dom-ready', () => {
+
+        
+        //Generate and send html code    
+        new Promise(function(res, rej){
+            var formData = formBuilder.formData;
+            res(formData);
+        }).then(function(formData){
+            $markup.formRender({formData});
+            previewWindow.webContents.on('did-finish-load', () => {
+                previewWindow.webContents.send('formHTML:Data', $markup[0].innerHTML);
+            });
             
-            new Promise(function(res, rej){
-                var formData = formBuilder.formData;
-                res(formData);
-            }).then(function(formData){
-                $markup.formRender({formData});
-                var formHTML = addLineBreaks($markup[0].innerHTML);
-                $('#previewForm').append($(formHTML));
-            }); 
-        });
-        previewWindow.webContents.on('did-finish-load', () => {
-            previewWindow.show();
-            console.log('window is now visible!')
-          })
+        });  
     });
 
   });

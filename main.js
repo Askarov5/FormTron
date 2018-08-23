@@ -4,8 +4,6 @@ const url = require('url');
 const path = require('path');
 
 const {app, BrowserWindow, Menu} = electron;
-const ipcMain = require('electron').ipcMain;
-const remote = require('electron').remote;
 //File System
 const fs = require('fs');
 
@@ -126,15 +124,6 @@ function openFile() {
 }
 
 //IPC
-ipcMain.on('JSONData:value', (e, arg) =>{
-    console.log(arg);
-    e.sender.send('JSONData:set', arg);
-    //win.webContents.send('JSONData:set', arg);  
-});
-
-ipcMain.on('formHTML:data', function(event, data) {
-    mainWindow.webContents.send('formHTML', data);
-});
 
 /* 
     Extra 

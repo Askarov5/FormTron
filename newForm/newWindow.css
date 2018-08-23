@@ -1,6 +1,5 @@
 @import url('../main.css');
 @import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css');
 #newForm {
     background-color:darkgrey;
     padding: 5px;
@@ -23,4 +22,11 @@ h3 {
 .getJsonData button[type=submit] {
     display: block;
     width: 100%;
+}
+
+/*Preview window*/
+#previewForm {
+    padding: 65px 5px 20px;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.8);
 }

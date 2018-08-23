@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>Form Preview</title>
+    <link rel="stylesheet" href="./newWindow.css">
 </head>
 <body>
     <form action="" id="previewForm"></form>
@@ -23,11 +24,12 @@
         const previewWindow = require('electron').remote.getCurrentWindow().id;
         console.log(previewWindow);
         const form = document.getElementById('previewForm');
-
-        ipcRenderer.on('formHTML:data', (e, arg) => {
-            alert(arg);
+        
+        ipcRenderer.on('formHTML:Data', (e, data) => {
+            console.log(typeof(data));
+            console.log(data);
+            form.insertAdjacentHTML('afterbegin', data);
         });
-
         
         //Close window onclick escape
         document.addEventListener('keydown', function(e) {
