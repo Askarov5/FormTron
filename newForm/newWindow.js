@@ -192,13 +192,18 @@ jQuery(function($) {
         //Generate and send html code    
         new Promise(function(res, rej){
             var formData = formBuilder.formData;
+            if (formData === undefined || formData.length >= 2) {
+                alert('Nothing to show. First build a form, please.');
+                throw new Error('Form data is empty!');
+            }
             res(formData);
         }).then(function(formData){
             $markup.formRender({formData});
             previewWindow.webContents.on('did-finish-load', () => {
                 previewWindow.webContents.send('formHTML:Data', $markup[0].innerHTML);
             });
-        });  
+        });
+
     });
 
   });

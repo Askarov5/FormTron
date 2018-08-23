@@ -8,6 +8,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .action-buttons {
@@ -26,6 +27,9 @@ header {
     display: inline-block;
     margin: 5px;
 }
+.action__btn:first-child{
+    margin-left: 0;
+} 
 .action__btn:last-child {
     margin-right: 0;
 }
