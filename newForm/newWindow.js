@@ -20,8 +20,62 @@ require('tinymce');
 
 //Buid, Edit, Save
 jQuery(function($) {
+
+    //Additional options to Form editor
+    var fbOtions = {
+        //Order Controls --Saves in window.sessionStorage
+        sortableControls: true,
+        //Changing def orders 
+        controlOrder: [
+            'header',
+            'text',
+            'textarea'
+          ],
+        //Additional Attributes
+        typeUserAttrs: {
+            text: {
+                pattern: {
+                    label: "Pattern",
+                    description: "Enter a RegExp passwords must match",
+                    placeholder: 'Choose your password validation',
+                    options: {
+                        '^(((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])))(?=.{6,})' : 'Must contain at least 1 lowercase, 1 uppercase, 1 numeric character and must be at least 6 characters',
+                        '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})': 'Must contain at least 1 character, 1 number and must be at least 6 characters',
+                    }
+                },
+                className: {
+                    label: 'Class',
+                    options: {
+                    'form-control': 'default',
+                    'red form-control': 'Red',
+                    'green form-control': 'Green',
+                    'blue form-control': 'Blue'
+                    },
+                    style: 'border: 1px solid green'
+                }
+            } 
+        },
+        //Additional Events
+        typeUserEvents: {
+          text: {
+            onadd: function(fld) {
+              var $patternField = $(".fld-pattern", fld);
+              var $patternWrap = $patternField.parents(".pattern-wrap:eq(0)");
+              $patternField.prop("disabled", true);
+              $patternWrap.hide();
+              fld.querySelector(".fld-subtype").onchange = function(e) {
+                var toggle = e.target.value === "password";
+                $patternField.prop("disabled", !toggle);
+                $patternWrap.toggle(toggle);
+              };
+            }
+          }
+        }
+    };
+      
+    //Editor
     var fbEditor = document.getElementById('newForm'),
-        formBuilder = $(fbEditor).formBuilder(),
+        formBuilder = $(fbEditor).formBuilder(fbOtions),
         setJSONWin;
     //File type filters for Built fs
     const buildFileTypes = [
@@ -192,7 +246,7 @@ jQuery(function($) {
         //Generate and send html code    
         new Promise(function(res, rej){
             var formData = formBuilder.formData;
-            if (formData === undefined || formData.length >= 2) {
+            if (formData === undefined || formData.length <= 2) {
                 alert('Nothing to show. First build a form, please.');
                 throw new Error('Form data is empty!');
             }
