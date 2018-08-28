@@ -81,6 +81,12 @@ const mainMenuTemplate = [
                             }
                         },
                         {
+                            label: 'Formeo',
+                            click() {
+                                openWindow('formeo','index', true);
+                            }
+                        },
+                        {
                             label: 'Bootstrap 3 Form',
                             click() {
                                 openWindow('bootForm','bootForm', true);

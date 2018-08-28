@@ -16,6 +16,7 @@
     "bootstrap": "^3.3.7",
     "electron": "^2.0.7",
     "formBuilder": "^2.9.8",
+    "formeo": "^0.7.17",
     "fs": "0.0.1-security",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",

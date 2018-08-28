@@ -4,3 +4,7 @@
   *Import/Export Json File, get XML data
 -Used jQuery and Bootstrap form builder plugins
   *Get HTML data
+How to start?
+  Run this commands:
+  -npm install
+  -npm start

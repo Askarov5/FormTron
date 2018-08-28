@@ -72,7 +72,44 @@ jQuery(function($) {
           }
         }
     };
-      
+    //Additional fields
+    if (!window.fbControls) window.fbControls = [];
+    window.fbControls.push(function (controlClass) {
+    class controlSearch extends controlClass {
+
+            static get definition() {
+                return {
+                    icon: '<i class="fa fa-search"></i>',
+                    i18n: {
+                        'en-US': 'Search Field',
+                        'ru-RU': 'Поле поиска'
+                    }
+                }
+            };
+
+            build() {
+                this.config.name = 'search';
+                var preAddonVal = this.config.preAddonVal || 'Search';
+
+                this.field = `  <div class="input-group">
+                                    <div class="input-group-addon green">${preAddonVal}</div>
+                                    <input type="text" class="form-control green" id="exampleInputAmount" placeholder="" readonly>
+                                </div>`;
+                return this.markup('div', [this.field], {id: this.config.name});
+            }
+
+            onRender() {
+                if(this.config.userData){       
+                    $('#'+this.config.name).val(this.config.userData[0]);        
+                  }    
+            }
+        }
+        
+        controlClass.register('search', controlSearch);
+        return {controlSearch};
+    });
+    
+      //$(container).formBuilder({fields, templates});
     //Editor
     var fbEditor = document.getElementById('newForm'),
         formBuilder = $(fbEditor).formBuilder(fbOtions),
