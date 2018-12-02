@@ -78,16 +78,16 @@ let formeoOpts = {
     ],
     elementOrder: {
       common: [
-      'button',
-      'checkbox',
-      'date-input',
-      'hidden',
-      'upload',
-      'number',
-      'radio',
-      'select',
       'text-input',
       'textarea',
+      'button',
+      'checkbox',
+      'radio',
+      'select',
+      'date-input',
+      'number',
+      'upload',
+      'hidden',
       ]
     }
   },

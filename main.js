@@ -9,7 +9,7 @@ const {app, BrowserWindow, Menu} = electron;
 const remote = require('electron').remote;
 
 //live reload(DevDep) 
-require('electron-reload')(__dirname);
+//require('electron-reload')(__dirname);
 
 var mainWindow;
 //Listen for app to be ready
@@ -32,6 +32,10 @@ app.on('ready', function() {
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
     //Insert menu
     Menu.setApplicationMenu(mainMenu);
+
+    let handleMWBtns = "var nfBtn = document.getElementById('nf-btn');" + 
+                        " nfBtn.click(function(){ openWindow('newForm','newWindow', true); });"
+    mainWindow.webContents.executeJavaScript(handleMWBtns);
 });
 //Handle open Windows
 function openWindow(folderName, fileName, max) {
@@ -63,8 +67,9 @@ function openWindow(folderName, fileName, max) {
 
     //Catch window resize
     win.on('resize', () => {});
-    
+
 }
+
 
 //Create menu template
 const mainMenuTemplate = [

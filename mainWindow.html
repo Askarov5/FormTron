@@ -12,17 +12,20 @@
     </style>
 </head>
 <body>
-    <div class="main-actions">
-        <div class="action-btn action-btn__new">New Form</div>
+    <!--<div class="main-actions">
+        <div class="action-btn action-btn__new" id="nf-btn">New Form</div>
         <div class="action-btn action-btn__open">Open Saved Form</div>
         <div class="action-btn action-btn__about">About</div>   
+    </div>-->
+    <div class="about">
+        <h1>FormTron</h1>
+        <p>
+            Form Builder Desktop Application with Electron.JS that allow to build different html forms and 
+            save them into several formats such as JSON, XML and of course ready <b>HTML</b>. <br />
+            Love JS and use it everywhere! :)
+        </p>
+        <p><i>PS: Application built as learning project of Electron. So, to focus only for framework features; used several open source jQuery plugins.</i></p>
     </div>
-    
     <script src="main.js"></script>
-    <script>
-        document.getElementsByClassName('action-btn__new')[0].addEventListener('click', function(){
-            openWindow('newForm','newWindow', true);
-        });
-    </script>
 </body>
 </html>
